@@ -96,27 +96,28 @@ class Test_get_template_dir(unittest.TestCase):
 
 	def setUp(self):
 		mkdir('___test/project')
-		
-	def test_invalid_filename_gives_none(self):
-		self.assertEqual(None, get_template_dir('no_such_file_eiorgjoergjoerjgerg'))
-	
-	def test_no_settings_found_gives_none(self):
-		mkfile('___test/file')
-		self.assertEqual(None, get_template_dir(mkpath('___test/file')))
 
 	def test_no_template_dir_in_settings_gives_none(self):
-		mkfile('___test/settings.py')
-		self.assertEqual(None, get_template_dir(mkpath('___test/file')))
+		settings = '___test/settings.py'
+		mkfile(settings)
+		self.assertEqual(None, get_template_dir(settings))
 
 	def test_template_dir_in_settings_gives_template(self):
-		f = open ('___test/project/settings.py', 'w')
+		settings = os.path.abspath('___test/project/settings.py')
+		f = open (settings, 'w')
 		expected = '/home/user/project/templates'
 		f.write('TEMPLATE_DIRS = ("%s",)' % expected)
 		f.close()
-		self.assertEqual(expected, get_template_dir(mkpath('___test/file')))
+		self.assertEqual(expected, get_template_dir(settings))
 
-	def test_foo(self):
-		get_template_dir('/home/anders/travel/hanab/hanab/event/views.py', 'local_settings.py')
-	
 	def tearDown(self):
 		shutil.rmtree('___test')
+
+
+class Test_get_app_name(unittest.TestCase):
+
+	def test_file_in_app_root(self):
+		mkdir('___test/project/app')
+		mkfile('___test/project/settings.py')
+		mkfile('___test/project/app/views.py')
+		#self.assertEqual('app', '___test/project/app/views.py')

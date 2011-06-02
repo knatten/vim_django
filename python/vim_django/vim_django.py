@@ -47,11 +47,11 @@ def findfile(name, path, max_height=sys.maxint, stop_at=[], timeout=1):
 		level += 1
 
 
-def get_setting(for_file, setting, settings='settings.py', max_height=sys.maxint, stop_at=[], timeout=1):
-	"""Get a value from django settings
+def find_settings(for_file, settings='settings.py', max_height=sys.maxint, stop_at=[], timeout=1):
+	"""Find the settings-file for a django file
 
 	This function searches for the the settings-file for the project that a
-	file is part of and returns a specified setting.
+	file is part of.
 
 	This is done by first searching the sub-directories of where the file is 
 	located, and then recursively searching the sub-directories of all the
@@ -59,31 +59,39 @@ def get_setting(for_file, setting, settings='settings.py', max_height=sys.maxint
 	
 	Keyword arguments:
 	for_file -- The file to use as a base when searching for the settings file
-	setting -- The setting to search for
 	settings -- The name of the settings-file (default 'settings.py')
 	max_height -- The maximum number of levels of parent directories to search
 	stop_at -- A list of directories to not search above. E.g. ['/home/me']
+	timeout -- If the file is not found in <timeout> seconds, give up
 	"""
 	try:
 		fname = findfile(settings, os.path.dirname(for_file), max_height, stop_at, timeout=1)
 	except OSError:
 		return None
-	if not fname:	
-		return  None
+	return fname
+
+def absdirname(fname):
+	return os.path.abspath(os.path.dirname(fname))
+
+def get_setting(setting, settings):
+	"""Get a value from django settings"""
 	g = l = {}
-	path = os.path.abspath(os.path.dirname(fname))
+	path = absdirname(settings)
 	appended_path = False
 	if not path in sys.path:
 		sys.path.append(path)
 		appended_path = True
-	execfile(fname, g, l)
+	execfile(settings, g, l)
 	if appended_path:
 		sys.path.remove(path)
 	return l[setting]
 
-def get_template_dir(for_file, settings='settings.py', max_height=sys.maxint, stop_at=[], timeout=1):
+def get_template_dir(settings):
 	"""Find the first element of TEMPLATE_DIRS"""
 	try:
-		return get_setting(for_file, 'TEMPLATE_DIRS', settings, max_height, stop_at, timeout)[0]
+		return get_setting('TEMPLATE_DIRS', settings)[0]
 	except (KeyError, TypeError):
 		return None
+
+def get_app_name(for_file):
+	return

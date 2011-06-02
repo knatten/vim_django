@@ -31,7 +31,8 @@ endfunction
 
 function VimDjangoGetTemplateDir()
 python << endpython
-vim.command('return "%s"' % vim_django.get_template_dir(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile")))
+settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
+vim.command('return "%s"' % vim_django.get_template_dir(settings))
 endpython
 endfunction
 
