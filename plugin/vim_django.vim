@@ -8,6 +8,8 @@
 " TODO
 " Configurable max_height, stop_at and timeout
 " Cache location of settings for each file
+" Find location of css and javascript
+" Find appname when current file is a template
 
 if exists("g:loaded_vim_django")
 	finish
@@ -23,10 +25,7 @@ function VimDjangoCommandTTemplate()
 endfunction
 
 function VimDjangoGetTemplateDirForApp()
-	let directory=expand('%:p:h')
-	let app=split(directory, '/')[-1]
-	let template_dir = VimDjangoGetTemplateDir().'/'.app
-	return template_dir
+	return VimDjangoGetTemplateDir().'/'.VimDjangoGetAppName()
 endfunction
 
 function VimDjangoGetTemplateDir()
@@ -35,6 +34,14 @@ settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjan
 vim.command('return "%s"' % vim_django.get_template_dir(settings))
 endpython
 endfunction
+
+function VimDjangoGetAppName()
+python << endpython
+settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
+vim.command('return "%s"' % vim_django.get_app_name(vim.current.buffer.name, settings))
+endpython
+endfunction
+
 
 python << endpython
 import os

@@ -93,5 +93,5 @@ def get_template_dir(settings):
 	except (KeyError, TypeError):
 		return None
 
-def get_app_name(for_file):
-	return
+def get_app_name(for_file, settings):
+	return for_file.replace(absdirname(settings), '').split(os.path.sep)[1].strip(os.path.sep)

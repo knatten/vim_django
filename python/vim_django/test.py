@@ -117,7 +117,7 @@ class Test_get_template_dir(unittest.TestCase):
 class Test_get_app_name(unittest.TestCase):
 
 	def test_file_in_app_root(self):
-		mkdir('___test/project/app')
-		mkfile('___test/project/settings.py')
-		mkfile('___test/project/app/views.py')
-		#self.assertEqual('app', '___test/project/app/views.py')
+		self.assertEqual('app', get_app_name('/project/app/views.py', '/project/settings.py'))
+
+	def test_file_in_subdir(self):
+		self.assertEqual('app', get_app_name('/project/app/extras/views.py', '/project/settings.py'))
