@@ -1,7 +1,6 @@
 import os
 import shutil
 import unittest
-import time#TODO
 
 import vim_django
 from vim_django import *
@@ -117,7 +116,13 @@ class Test_get_template_dir(unittest.TestCase):
 class Test_get_app_name(unittest.TestCase):
 
 	def test_file_in_app_root(self):
-		self.assertEqual('app', get_app_name('/project/app/views.py', '/project/settings.py'))
+		self.assertEqual('app', get_app_name('/project/app/views.py', '/project/settings.py', '/templates'))
 
 	def test_file_in_subdir(self):
-		self.assertEqual('app', get_app_name('/project/app/extras/views.py', '/project/settings.py'))
+		self.assertEqual('app', get_app_name('/project/app/extras/views.py', '/project/settings.py', '/templates'))
+
+	def test_file_in_template_root(self):
+		self.assertEqual('app', get_app_name('/templates/app/index.html', '/project/settings.py', '/templates'))
+
+	def test_file_in_template_subdir(self):
+		self.assertEqual('app', get_app_name('/templates/app/subdir/index.html', '/project/settings.py', '/templates'))

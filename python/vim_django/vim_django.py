@@ -106,7 +106,10 @@ def get_template_dir(settings):
 	except (KeyError, TypeError):
 		return None
 
-def get_app_name(for_file, settings):
+def get_app_name(for_file, settings, template_dir):
 	"""Get the name of the app in which for_file belongs"""
+	if os.path.abspath(template_dir) in os.path.abspath(for_file):
+		subdir = os.path.abspath(for_file).replace(os.path.abspath(template_dir),'')
+		return subdir.split(os.path.sep)[1]
 	return for_file.replace(absdirname(settings), '').split(os.path.sep)[1].\
 		strip(os.path.sep)

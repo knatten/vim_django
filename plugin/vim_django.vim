@@ -38,7 +38,8 @@ endfunction
 function VimDjangoGetAppName()
 python << endpython
 settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
-vim.command('return "%s"' % vim_django.get_app_name(vim.current.buffer.name, settings))
+template_dir = vim_django.get_template_dir(settings)
+vim.command('return "%s"' % vim_django.get_app_name(vim.current.buffer.name, settings, template_dir))
 endpython
 endfunction
 
