@@ -3,7 +3,7 @@
 set -e
 
 if [[ $# -ne 1 ]]; then
-	echo "USAGE: $0"
+	echo "USAGE: $0 <version>"
 	exit
 fi
 
