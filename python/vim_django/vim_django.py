@@ -83,7 +83,7 @@ def find_settings(for_file, settings='settings.py', max_height=sys.maxint, \
 	# pylint: enable-msg=W0102
 
 def absdirname(fname):
-	"""Return full path to file"""
+	"""Return full path of directory where fname is located"""
 	return os.path.abspath(os.path.dirname(fname))
 
 def get_setting(setting, settings):
@@ -113,3 +113,6 @@ def get_app_name(for_file, settings, template_dir):
 		return subdir.split(os.path.sep)[1]
 	return for_file.replace(absdirname(settings), '').split(os.path.sep)[1].\
 		strip(os.path.sep)
+
+def get_app_dir(settings_dir, app_name):
+	return os.path.join(absdirname(settings_dir), app_name)

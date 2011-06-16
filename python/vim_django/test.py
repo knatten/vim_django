@@ -126,3 +126,9 @@ class Test_get_app_name(unittest.TestCase):
 
 	def test_file_in_template_subdir(self):
 		self.assertEqual('app', get_app_name('/templates/app/subdir/index.html', '/project/settings.py', '/templates'))
+
+
+class Test_get_app_dir(unittest.TestCase):
+
+	def test_(self):
+		self.assertEqual('/project/myapp', get_app_dir('/project/settings.py', 'myapp'))

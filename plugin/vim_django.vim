@@ -20,8 +20,16 @@ if !exists(":VimDjangoCommandTTemplate")
 	command -nargs=0  VimDjangoCommandTTemplate  :call VimDjangoCommandTTemplate()
 endif
 
+if !exists(":VimDjangoCommandTApp")
+	command -nargs=0  VimDjangoCommandTApp  :call VimDjangoCommandTApp()
+endif
+
 function VimDjangoCommandTTemplate()
 	exec "CommandT".VimDjangoGetTemplateDirForApp()
+endfunction
+
+function VimDjangoCommandTApp()
+	exec "CommandT".VimDjangoGetAppDir()
 endfunction
 
 function VimDjangoGetTemplateDirForApp()
@@ -32,6 +40,13 @@ function VimDjangoGetTemplateDir()
 python << endpython
 settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
 vim.command('return "%s"' % vim_django.get_template_dir(settings))
+endpython
+endfunction
+
+function VimDjangoGetAppDir()
+python << endpython
+settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
+vim.command('return "%s"' % vim_django.get_app_dir(settings, vim.eval("VimDjangoGetAppName()")))
 endpython
 endfunction
 
