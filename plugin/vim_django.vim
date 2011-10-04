@@ -1,6 +1,6 @@
 " Vim plugin for working with Django projects
-" Version:     0.1
-" Last change: 2011-05-28
+" Version:     0.2
+" Last change: 2011-10-04
 " Author:      Anders Schau Knatten
 " Contact:     anders AT knatten DOT org
 " License:     This file is placed in the public domain.
@@ -9,7 +9,6 @@
 " Configurable max_height, stop_at and timeout
 " Cache location of settings for each file
 " Find location of css and javascript
-" Find appname when current file is a template
 
 if exists("g:loaded_vim_django")
 	finish
@@ -38,23 +37,32 @@ endfunction
 
 function VimDjangoGetTemplateDir()
 python << endpython
-settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
-vim.command('return "%s"' % vim_django.get_template_dir(settings))
+try:
+    settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
+    vim.command('return "%s"' % vim_django.get_template_dir(settings))
+except Exception as e:
+    sys.stderr.write(e.message)
 endpython
 endfunction
 
 function VimDjangoGetAppDir()
 python << endpython
-settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
-vim.command('return "%s"' % vim_django.get_app_dir(settings, vim.eval("VimDjangoGetAppName()")))
+try:
+    settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
+    vim.command('return "%s"' % vim_django.get_app_dir(settings, vim.eval("VimDjangoGetAppName()")))
+except Exception as e:
+    sys.stderr.write(e.message)
 endpython
 endfunction
 
 function VimDjangoGetAppName()
 python << endpython
-settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
-template_dir = vim_django.get_template_dir(settings)
-vim.command('return "%s"' % vim_django.get_app_name(vim.current.buffer.name, settings, template_dir))
+try:
+    settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
+    template_dir = vim_django.get_template_dir(settings)
+    vim.command('return "%s"' % vim_django.get_app_name(vim.current.buffer.name, settings, template_dir))
+except Exception as e:
+    sys.stderr.write(e.message)
 endpython
 endfunction
 

@@ -96,10 +96,10 @@ class Test_get_template_dir(unittest.TestCase):
 	def setUp(self):
 		mkdir('___test/project')
 
-	def test_no_template_dir_in_settings_gives_none(self):
+	def test_no_template_dir_in_settings_throws(self):
 		settings = '___test/settings.py'
 		mkfile(settings)
-		self.assertEqual(None, get_template_dir(settings))
+		self.assertRaises(Exception, get_template_dir, settings)
 
 	def test_template_dir_in_settings_gives_template(self):
 		settings = os.path.abspath('___test/project/settings.py')

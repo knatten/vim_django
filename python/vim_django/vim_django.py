@@ -30,6 +30,9 @@ def findfile_outside(name, path, outside, time_limit=sys.maxint):
 			if match:
 				return match
 
+def path_is_root(path):
+	return os.path.dirname(path) == path
+
 def findfile(name, path, max_height=sys.maxint, stop_at=[], timeout=1):
 	"""Finds a file in path, or subdir or subdir of a parent dir"""
 	# pylint: disable-msg=W0102
@@ -37,19 +40,19 @@ def findfile(name, path, max_height=sys.maxint, stop_at=[], timeout=1):
 	if path.endswith(os.path.sep):
 		path = path[:-len(os.path.sep)]
 	level = 0
-	previous_dir = ''
+	previous_path = ''
 	while True:
 		if path == '' and not SKIP_ROOT_CHECK_FOR_TEST:
 			return None
 		if os.path.abspath(path) in [os.path.abspath(s) for s in stop_at]\
 			and not SKIP_STOP_AT_CHECK_FOR_TEST:
 			return None
-		found = findfile_outside(name, path, previous_dir, time_limit)
+		found = findfile_outside(name, path, previous_path, time_limit)
 		if found:
 			return found
-		elif level == max_height:
+		elif level == max_height or path_is_root(path):
 			return None
-		previous_dir = os.path.basename(path)
+		previous_path = os.path.basename(path)
 		path = os.path.dirname(path)
 		level += 1
 	# pylint: enable-msg=W0102
@@ -74,11 +77,13 @@ def find_settings(for_file, settings='settings.py', max_height=sys.maxint, \
 	timeout -- If the file is not found in <timeout> seconds, give up
 	"""
 	# pylint: disable-msg=W0102
+	if not for_file:
+		raise Exception("Could not find filename of current buffer. Are you in a buffer?")
 	try:
 		fname = findfile(settings, os.path.dirname(for_file), max_height, \
 			stop_at, timeout)
 	except OSError:
-		return None
+		raise Exception("Could not find " + settings)
 	return fname
 	# pylint: enable-msg=W0102
 
@@ -101,10 +106,11 @@ def get_setting(setting, settings):
 
 def get_template_dir(settings):
 	"""Find the first element of TEMPLATE_DIRS"""
+	setting = "TEMPLATE_DIRS"
 	try:
-		return get_setting('TEMPLATE_DIRS', settings)[0]
+		return get_setting(setting, settings)[0]
 	except (KeyError, TypeError):
-		return None
+		raise Exception("Could not find " + setting + " in " + settings)
 
 def get_app_name(for_file, settings, template_dir):
 	"""Get the name of the app in which for_file belongs"""
