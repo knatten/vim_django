@@ -1,5 +1,5 @@
 " Vim plugin for working with Django projects
-" Version:     0.2
+" Version:     0.3
 " Last change: 2011-10-04
 " Author:      Anders Schau Knatten
 " Contact:     anders AT knatten DOT org
