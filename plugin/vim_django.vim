@@ -1,6 +1,6 @@
 " Vim plugin for working with Django projects
-" Version:     0.3
-" Last change: 2011-10-04
+" Version:     0.4
+" Last change: 2011-11-03
 " Author:      Anders Schau Knatten
 " Contact:     anders AT knatten DOT org
 " License:     This file is placed in the public domain.
