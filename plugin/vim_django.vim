@@ -11,28 +11,28 @@
 " Find location of css and javascript
 
 if exists("g:loaded_vim_django")
-	finish
+    finish
 endif
 let g:loaded_vim_django = 1
 
 if !exists(":VimDjangoCommandTTemplate")
-	command -nargs=0  VimDjangoCommandTTemplate  :call VimDjangoCommandTTemplate()
+    command -nargs=0  VimDjangoCommandTTemplate  :call VimDjangoCommandTTemplate()
 endif
 
 if !exists(":VimDjangoCommandTApp")
-	command -nargs=0  VimDjangoCommandTApp  :call VimDjangoCommandTApp()
+    command -nargs=0  VimDjangoCommandTApp  :call VimDjangoCommandTApp()
 endif
 
 function VimDjangoCommandTTemplate()
-	exec "CommandT".VimDjangoGetTemplateDirForApp()
+    exec "CommandT".VimDjangoGetTemplateDirForApp()
 endfunction
 
 function VimDjangoCommandTApp()
-	exec "CommandT".VimDjangoGetAppDir()
+    exec "CommandT".VimDjangoGetAppDir()
 endfunction
 
 function VimDjangoGetTemplateDirForApp()
-	return VimDjangoGetTemplateDir().'/'.VimDjangoGetAppName()
+    return VimDjangoGetTemplateDir().'/'.VimDjangoGetAppName()
 endfunction
 
 function VimDjangoGetTemplateDir()
@@ -72,12 +72,12 @@ import os
 import vim
 path = os.path.join(os.environ['HOME'], '.vim', 'python')
 if not path in sys.path:
-	sys.path.append(path)
+    sys.path.append(path)
 vundle_path = os.path.join(os.environ['HOME'], '.vim', 'bundle', 'vim_django', 'python')
 if not vundle_path in sys.path:
-	sys.path.append(vundle_path)
+    sys.path.append(vundle_path)
 from vim_django import vim_django
 endpython
 if !exists("VimDjangoSettingsFile")
-	let VimDjangoSettingsFile = 'settings.py'
+    let VimDjangoSettingsFile = 'settings.py'
 endif
