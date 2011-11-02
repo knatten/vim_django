@@ -75,7 +75,7 @@ if not path in sys.path:
 	sys.path.append(path)
 vundle_path = os.path.join(os.environ['HOME'], '.vim', 'bundle', 'vim_django', 'python')
 if not vundle_path in sys.path:
-        sys.path.append(vundle_path)
+	sys.path.append(vundle_path)
 from vim_django import vim_django
 endpython
 if !exists("VimDjangoSettingsFile")
