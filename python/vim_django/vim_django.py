@@ -98,7 +98,8 @@ def get_setting(setting, settings):
 	if not path in sys.path:
 		sys.path.append(path)
 		appended_path = True
-	glbl = local = {}
+	glbl = {}
+	local = {'__file__': os.path.split(settings)[-1]}
 	execfile(settings, glbl, local)
 	if appended_path:
 		sys.path.remove(path)
