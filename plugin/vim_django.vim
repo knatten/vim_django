@@ -40,8 +40,8 @@ python << endpython
 try:
     settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
     vim.command('return "%s"' % vim_django.get_template_dir(settings))
-except Exception as e:
-    sys.stderr.write(e.message)
+except Exception, e:
+    sys.stderr.write(str(e))
 endpython
 endfunction
 
@@ -50,8 +50,8 @@ python << endpython
 try:
     settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
     vim.command('return "%s"' % vim_django.get_app_dir(settings, vim.eval("VimDjangoGetAppName()")))
-except Exception as e:
-    sys.stderr.write(e.message)
+except Exception, e:
+    sys.stderr.write(str(e))
 endpython
 endfunction
 
@@ -61,8 +61,8 @@ try:
     settings = vim_django.find_settings(vim.current.buffer.name, vim.eval("g:VimDjangoSettingsFile"))
     template_dir = vim_django.get_template_dir(settings)
     vim.command('return "%s"' % vim_django.get_app_name(vim.current.buffer.name, settings, template_dir))
-except Exception as e:
-    sys.stderr.write(e.message)
+except Exception, e:
+    sys.stderr.write(str(e))
 endpython
 endfunction
 
